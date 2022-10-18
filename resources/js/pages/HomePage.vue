@@ -15,7 +15,7 @@
                 </ul>
             </nav>
 
-            <div class="row">
+            <div class="row row-cols-2">
                 <CardPost v-for="(post, index) in ArrayPosts" :key="index"
                 :title = 'post.name'
                 :cover = 'post.cover'

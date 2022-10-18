@@ -1915,6 +1915,15 @@ __webpack_require__.r(__webpack_exports__);
     content: String,
     category: Object,
     slug: String
+  },
+  methods: {
+    maxLength: function maxLength(string, maxNumber) {
+      if (string > maxNumber) {
+        return string.slice(0, maxNumber) + '...';
+      } else {
+        return string;
+      }
+    }
   }
 });
 
@@ -2146,7 +2155,7 @@ var render = function render() {
     staticClass: "card-title fw-bold"
   }, [_vm._v(_vm._s(_vm.title))]), _vm._v(" "), _c("p", {
     staticClass: "card-text"
-  }, [_vm._v(_vm._s(_vm.content))]), _vm._v(" "), _c("p", {
+  }, [_vm._v(_vm._s(_vm.maxLength(_vm.content, 100)))]), _vm._v(" "), _c("p", {
     staticClass: "card-text"
   }, [_c("small", {
     staticClass: "text-muted"
@@ -2374,7 +2383,7 @@ var render = function render() {
       }
     }
   }, [_vm._v("Next")])])])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
+    staticClass: "row row-cols-2"
   }, _vm._l(_vm.ArrayPosts, function (post, index) {
     return _c("CardPost", {
       key: index,

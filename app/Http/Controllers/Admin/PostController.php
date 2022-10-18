@@ -43,7 +43,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required|max:100|min:2',
             'content' => 'required|max:65535|min:2',
@@ -54,8 +53,12 @@ class PostController extends Controller
 
         $data = $request->all();
 
-        $image_path = Storage::put('cover', $data['image']);
-        $data['cover'] = $image_path;
+        if (array_key_exists('image', $data)) {
+
+            $img_path = Storage::put('cover', $data['image']);
+            $data['cover'] = $img_path;
+
+        }
 
 
         $post = new Post();
@@ -114,6 +117,7 @@ class PostController extends Controller
             'content' => 'required|max:65535|min:2',
             'tags' => 'exists:tags,id',
             'category_id' => 'nullable|exists:categories,id',
+            'image' => 'nullable|image|max:10000'
             
 
         ]);
@@ -123,7 +127,16 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $data = $request->all();
 
-        
+        if (array_key_exists('image', $data)) {
+
+            if ($post->cover) {
+                Storage::delete($post->cover);
+            }
+
+            $img_path = Storage::put('cover', $data['image']);
+            $data['cover'] = $img_path;
+
+        }
 
         if ($post->name !== $data['name']) {
             $data['slug'] = $this->getUniqueSlug($data['name']);

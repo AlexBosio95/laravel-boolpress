@@ -14,6 +14,7 @@
             <div class="mb-2">
                 <label for="coverImage" class="form-label">Image</label>
                 <input type="file" name="image" id="coverImage" class="form-control file">
+                
                 @error('image')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
