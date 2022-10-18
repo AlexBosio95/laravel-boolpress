@@ -16,11 +16,12 @@
             </nav>
 
             <div class="row">
-                <Card v-for="(post, index) in ArrayPosts" :key="index"
+                <CardPost v-for="(post, index) in ArrayPosts" :key="index"
                 :title = 'post.name'
                 :cover = 'post.cover'
                 :content = 'post.content'
                 :category = 'post.category'
+                :slug = 'post.slug'
                 />
             </div>
         </div>
@@ -32,12 +33,12 @@
 
 <script>
 
-import Card from '../components/Card.vue'
+import CardPost from '../components/CardPost.vue'
 
 export default {
     name: 'MainPost',
     components: {
-        Card
+        CardPost
     },
     data() {
         return{

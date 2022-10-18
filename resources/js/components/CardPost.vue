@@ -6,7 +6,7 @@
                 <h5 class="card-title fw-bold">{{title}}</h5>
                 <p class="card-text">{{content}}</p>
                 <p class="card-text"><small class="text-muted">{{category ? category.name : '-'}}</small></p>
-                <a href="#" class="btn btn-primary">Read more</a>
+                <router-link :to="{name: 'single-post', params: {slug: slug}}" class="btn btn-primary">Read more</router-link>
             </div>
         </div>
     </div>
@@ -19,6 +19,7 @@ export default {
         cover : String,
         content : String,
         category : Object,
+        slug: String,
 
     }
 }

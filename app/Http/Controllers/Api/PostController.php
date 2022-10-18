@@ -50,7 +50,7 @@ class PostController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'results' => 'not found'
+                'message' => 'not found'
             ]);
         }
     }
