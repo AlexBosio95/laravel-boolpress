@@ -26,6 +26,7 @@ Route::middleware('auth')
             Route::resource( 'posts', 'PostController');
             Route::resource( 'category', 'CategoryController');
             Route::resource( 'tag', 'TagController');
+            Route::delete('posts/deleteCover/{post}', 'PostController@deleteCover')->name('posts.deleteCover');
 
         });
 

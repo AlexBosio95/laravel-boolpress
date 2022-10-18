@@ -185,4 +185,17 @@ class PostController extends Controller
 
         return $slug;
     }
+
+    public function deleteCover(Post $post) {
+
+        if ($post->cover) {
+            Storage::delete($post->cover);
+        }
+
+        $post->cover = null;
+        $post->save();
+
+        return redirect()->route('admin.posts.edit', [ 'post' => $post->id])->with('status', 'Immagine cancellata con successo');
+
+    }
 }

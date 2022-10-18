@@ -10,10 +10,38 @@
         </div>
     @endif
 
-        <form action="{{route('admin.posts.update', ['post' => $data])}}" method="POST">
+        <form action="{{route('admin.posts.deleteCover', ['post' => $data])}}" method="POST" id="deleteCoverForm" class="d-none">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">DELETE IMAGE</button>
+        </form>
+
+        <form action="{{route('admin.posts.update', ['post' => $data])}}" method="POST" enctype="multipart/form-data">
 
             @csrf
             @method('PUT')
+
+            <div class="form-group mb-3">
+
+                <p>Current image:</p>
+                @if ($data->cover)
+                    <img src="{{asset('storage/' . $data->cover)}}" class="img-fluid"/>
+                    <a href="#" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('deleteCoverForm').submit();">Delete immagine</a>
+
+                @else
+                    <p>No loaded image!</p>
+                @endif
+
+
+                <label for="cover">Image cover</label>
+                <input type="file" name="image" id="cover" class="form-control-file @error('image') is-invalid @enderror" />
+
+                @error('image')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
             
             <label for="name" class="form-label">Name</label>
             <div class="input-group mb-3">
