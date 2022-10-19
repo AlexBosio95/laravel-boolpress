@@ -2065,8 +2065,7 @@ __webpack_require__.r(__webpack_exports__);
   name: 'SinglePost',
   data: function data() {
     return {
-      PostArray: [],
-      success: true,
+      post: null,
       message: ''
     };
   },
@@ -2074,19 +2073,19 @@ __webpack_require__.r(__webpack_exports__);
     getViewPost: function getViewPost() {
       var _this = this;
 
-      this.success = false;
       var slug = this.$route.params.slug;
       axios.get('/api/posts/' + slug).then(function (response) {
-        _this.PostArray = response.data.results;
-        _this.success = true;
+        console.log(response);
+        _this.post = response.data.results;
+        console.log(_this.post);
       })["catch"](function (error) {
-        this.success = false;
+        console.log(error);
       });
     },
     timerNoPost: function timerNoPost() {
       var _this2 = this;
 
-      if (this.success == false) {
+      if (this.post == null) {
         setTimeout(function () {
           _this2.message = 'Post Not Found';
         }, 2000);
@@ -2430,15 +2429,46 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _vm.success ? _c("div", [_c("h5", {
+  return _c("div", [_vm.post ? _c("div", {
+    staticClass: "py-5"
+  }, [_c("h3", {
     staticClass: "card-title text-center"
-  }, [_vm._v(_vm._s(_vm.PostArray.name))]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.post.name))]), _vm._v(" "), _c("h5", [_vm._v(_vm._s(_vm.post.category ? _vm.post.category.name : ""))]), _vm._v(" "), _c("div", {
+    staticClass: "btn-group btn-group-sm mb-3",
+    attrs: {
+      role: "group",
+      "aria-label": "Basic example"
+    }
+  }, _vm._l(_vm.post.tags, function (tag, index) {
+    return _c("button", {
+      key: index,
+      staticClass: "btn btn-secondary",
+      attrs: {
+        type: "button"
+      }
+    }, [_vm._v("#" + _vm._s(tag.name))]);
+  }), 0), _vm._v(" "), _c("div", {
     staticClass: "card"
-  }, [_c("div", {
+  }, [_c("img", {
+    staticClass: "card-img-top",
+    attrs: {
+      src: _vm.post.cover,
+      alt: _vm.post.name
+    }
+  }), _vm._v(" "), _c("div", {
     staticClass: "card-body"
   }, [_c("p", {
     staticClass: "card-text"
-  }, [_vm._v(_vm._s(_vm.PostArray.content))])])])]) : _c("div", {
+  }, [_vm._v(_vm._s(_vm.post.content))])])]), _vm._v(" "), _c("div", {
+    staticClass: "mt-4"
+  }, [_c("router-link", {
+    staticClass: "btn btn-primary",
+    attrs: {
+      to: {
+        name: "home"
+      }
+    }
+  }, [_vm._v("Back")])], 1)]) : _c("div", {
     staticClass: "d-flex justify-content-center"
   }, [_vm.message == "" ? _c("div", {
     staticClass: "spinner-grow",
@@ -2449,7 +2479,7 @@ var render = function render() {
     staticClass: "sr-only"
   }, [_vm._v("Loading...")])]) : _c("div", [_c("h1", {
     staticClass: "text-center"
-  }, [_vm._v(_vm._s(_vm.message))])])]);
+  }, [_vm._v(_vm._s(_vm.message))])])])]);
 };
 
 var staticRenderFns = [];

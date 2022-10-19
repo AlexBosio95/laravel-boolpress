@@ -40,12 +40,18 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::where('slug', $id)->firstOrFail();
+        $post = Post::where('slug', $id)->with(['category', 'tags'])->firstOrFail();
 
-        if ($posts) {
+        if ($post->cover) {
+            $post->cover = asset('storage/' . $post->cover);
+        } else {
+            $post->cover = asset('img/no_image.jpg');
+        }
+
+        if ($post) {
             return response()->json([
                 'success' => true,
-                'results' => $posts
+                'results' => $post
             ]);
         } else {
             return response()->json([
