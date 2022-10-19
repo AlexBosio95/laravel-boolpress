@@ -43,6 +43,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'name' => 'required|max:100|min:2',
             'content' => 'required|max:65535|min:2',
@@ -57,9 +58,7 @@ class PostController extends Controller
 
             $img_path = Storage::put('cover', $data['image']);
             $data['cover'] = $img_path;
-
         }
-
 
         $post = new Post();
         $post->fill($data);
@@ -118,11 +117,7 @@ class PostController extends Controller
             'tags' => 'exists:tags,id',
             'category_id' => 'nullable|exists:categories,id',
             'image' => 'nullable|image|max:10000'
-            
-
         ]);
-
-
 
         $post = Post::findOrFail($id);
         $data = $request->all();

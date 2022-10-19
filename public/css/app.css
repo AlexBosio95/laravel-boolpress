@@ -10948,3 +10948,17 @@ a.text-dark:focus {
   text-decoration: none;
 }
 
+.my-card {
+  margin: 1rem;
+}
+
+.my-card img {
+  height: 25rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.my-card .description {
+  height: 3rem;
+}
+

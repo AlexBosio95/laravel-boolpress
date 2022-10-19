@@ -1909,6 +1909,7 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'CardPOst',
   props: {
     title: String,
     cover: String,
@@ -1918,7 +1919,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     maxLength: function maxLength(string, maxNumber) {
-      if (string > maxNumber) {
+      if (string.length > maxNumber) {
         return string.slice(0, maxNumber) + '...';
       } else {
         return string;
@@ -2076,12 +2077,10 @@ __webpack_require__.r(__webpack_exports__);
       this.success = false;
       var slug = this.$route.params.slug;
       axios.get('/api/posts/' + slug).then(function (response) {
-        if (response.data.success) {
-          _this.PostArray = response.data.results;
-          _this.success = true;
-        } else {
-          _this.success = false;
-        }
+        _this.PostArray = response.data.results;
+        _this.success = true;
+      })["catch"](function (error) {
+        this.success = false;
       });
     },
     timerNoPost: function timerNoPost() {
@@ -2143,7 +2142,7 @@ var render = function render() {
   return _c("div", {
     staticClass: "my-3"
   }, [_c("div", {
-    staticClass: "card"
+    staticClass: "card my-card"
   }, [_c("img", {
     staticClass: "card-img-top",
     attrs: {
@@ -2154,7 +2153,7 @@ var render = function render() {
   }, [_c("h5", {
     staticClass: "card-title fw-bold"
   }, [_vm._v(_vm._s(_vm.title))]), _vm._v(" "), _c("p", {
-    staticClass: "card-text"
+    staticClass: "card-text description"
   }, [_vm._v(_vm._s(_vm.maxLength(_vm.content, 100)))]), _vm._v(" "), _c("p", {
     staticClass: "card-text"
   }, [_c("small", {

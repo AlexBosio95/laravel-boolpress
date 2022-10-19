@@ -33,13 +33,12 @@ export default {
             const slug = this.$route.params.slug;
             axios.get('/api/posts/' + slug)
                 .then((response) => {
-                    if (response.data.success) {
-                        this.PostArray = response.data.results;
-                        this.success = true;
-                    } else {
-                        this.success = false;
-                    }
+                    this.PostArray = response.data.results;
+                    this.success = true;
                 })
+                .catch( function (error) {
+                    this.success = false;
+                });
         },
         timerNoPost(){
             if (this.success == false) {

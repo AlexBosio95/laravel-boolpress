@@ -13,3 +13,16 @@
         text-decoration: none;
     }
 }
+
+.my-card{
+    margin: 1rem;
+
+    img{
+        height: 25rem;
+        object-fit: cover;
+    }
+
+    .description{
+        height: 3rem;
+    }
+}

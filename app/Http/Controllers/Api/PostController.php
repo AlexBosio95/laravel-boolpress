@@ -40,7 +40,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::where('slug', $id)->first();
+        $posts = Post::where('slug', $id)->firstOrFail();
 
         if ($posts) {
             return response()->json([
