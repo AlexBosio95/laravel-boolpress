@@ -2004,18 +2004,32 @@ __webpack_require__.r(__webpack_exports__);
     return {
       name: '',
       email: '',
-      message: ''
+      message: '',
+      progress: false,
+      response: false,
+      messageResponse: 'Message sent correctly'
     };
   },
   methods: {
     getNewContact: function getNewContact() {
+      var _this = this;
+
+      this.progress = true;
       axios.post('/api/contacts', {
         'name': this.name,
         'email': this.email,
         'message': this.message
       }).then(function (response) {
-        console.log(response);
+        console.log(response.data.success);
+        _this.response = true;
       });
+    },
+    getForm: function getForm() {
+      this.response = false;
+      this.progress = false;
+      this.email = '';
+      this.name = '';
+      this.message = '';
     }
   }
 });
@@ -2331,7 +2345,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", [_c("form", {
+  return _c("div", [!_vm.response ? _c("form", {
     on: {
       submit: function submit($event) {
         $event.preventDefault();
@@ -2419,15 +2433,36 @@ var render = function render() {
         _vm.message = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("button", {
+  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm.progress ? _c("div", {
+    staticClass: "spinner-grow mt-4",
+    attrs: {
+      role: "status"
+    }
+  }, [_c("span", {
+    staticClass: "sr-only"
+  }, [_vm._v("Loading...")])]) : _vm._e()]) : _c("div", {
+    staticClass: "d-flex justify-content-center flex-wrap"
+  }, [_c("h5", {
+    staticClass: "text-center mt-4 w-100"
+  }, [_vm._v(_vm._s(_vm.messageResponse))]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-primary mt-4",
+    on: {
+      click: _vm.getForm
+    }
+  }, [_vm._v("New message")])])]);
+};
+
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", [_c("button", {
     staticClass: "btn btn-primary",
     attrs: {
       type: "submit"
     }
-  }, [_vm._v("Submit")])])]);
-};
-
-var staticRenderFns = [];
+  }, [_vm._v("Submit")])]);
+}];
 render._withStripped = true;
 
 
