@@ -2005,7 +2005,9 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       email: '',
       message: '',
-      progress: false,
+      errors: {},
+      success: false,
+      send: false,
       response: false,
       messageResponse: 'Message sent correctly'
     };
@@ -2014,19 +2016,28 @@ __webpack_require__.r(__webpack_exports__);
     getNewContact: function getNewContact() {
       var _this = this;
 
-      this.progress = true;
+      this.send = true;
       axios.post('/api/contacts', {
         'name': this.name,
         'email': this.email,
         'message': this.message
       }).then(function (response) {
-        console.log(response.data.success);
-        _this.response = true;
+        _this.success = response.data.success;
+        _this.send = false;
+
+        if (_this.success) {
+          _this.response = true;
+          _this.email = '';
+          _this.name = '';
+          _this.message = '';
+          _this.errors = {};
+        } else {
+          _this.errors = response.data.errors;
+        }
       });
     },
     getForm: function getForm() {
       this.response = false;
-      this.progress = false;
       this.email = '';
       this.name = '';
       this.message = '';
@@ -2366,6 +2377,7 @@ var render = function render() {
       expression: "name"
     }],
     staticClass: "form-control",
+    "class": _vm.errors.name ? "is-invalid" : "",
     attrs: {
       type: "text",
       id: "name"
@@ -2379,7 +2391,12 @@ var render = function render() {
         _vm.name = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _vm._l(_vm.errors.name, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "invalid-feedback"
+    }, [_vm._v("\n                " + _vm._s(error) + "\n            ")]);
+  })], 2), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -2393,6 +2410,7 @@ var render = function render() {
       expression: "email"
     }],
     staticClass: "form-control",
+    "class": _vm.errors.email ? "is-invalid" : "",
     attrs: {
       type: "email",
       id: "email"
@@ -2406,7 +2424,12 @@ var render = function render() {
         _vm.email = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _vm._l(_vm.errors.email, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "invalid-feedback"
+    }, [_vm._v("\n                " + _vm._s(error) + "\n            ")]);
+  })], 2), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -2420,6 +2443,7 @@ var render = function render() {
       expression: "message"
     }],
     staticClass: "form-control",
+    "class": _vm.errors.message ? "is-invalid" : "",
     attrs: {
       id: "message",
       rows: "3"
@@ -2433,7 +2457,18 @@ var render = function render() {
         _vm.message = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm.progress ? _c("div", {
+  }), _vm._v(" "), _vm._l(_vm.errors.message, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "invalid-feedback"
+    }, [_vm._v("\n                " + _vm._s(error) + "\n            ")]);
+  })], 2), _vm._v(" "), _c("div", [_c("button", {
+    staticClass: "btn btn-primary",
+    attrs: {
+      type: "submit",
+      disabled: _vm.send
+    }
+  }, [_vm._v("Submit")])]), _vm._v(" "), _vm.send ? _c("div", {
     staticClass: "spinner-grow mt-4",
     attrs: {
       role: "status"
@@ -2452,17 +2487,7 @@ var render = function render() {
   }, [_vm._v("New message")])])]);
 };
 
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", [_c("button", {
-    staticClass: "btn btn-primary",
-    attrs: {
-      type: "submit"
-    }
-  }, [_vm._v("Submit")])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
