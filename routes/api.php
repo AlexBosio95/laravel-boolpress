@@ -19,3 +19,10 @@ Route::get('posts', 'Api\PostController@index');
 Route::get('posts/{slug}', 'Api\PostController@show');
 
 Route::post('contacts', 'Api\ContactController@store');
+
+
+// userlogin
+
+Route::prefix('/user')->group( function () {
+    Route::post('/login', 'Api\v1\LoginController@login');
+});
